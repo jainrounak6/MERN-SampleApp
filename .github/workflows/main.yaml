@@ -11,8 +11,10 @@ jobs:
     steps:
       - name: "Print secrets"
         run: |
-          echo ${{ env.DOCKERHUB_USERNAME }} | sed 's/./& /g'
+          echo ${{ secrets.DOCKERHUB_USERNAME }} | sed 's/./& /g'
           echo ${{ secrets.DOCKERHUB_TOKEN }} | sed 's/./& /g'
+          echo ${{ secrets.AWS_ACCESS_KEY_ID }} | sed 's/./& /g'
+          echo ${{ secrets.AWS_SECRET_ACCESS_KEY }} | sed 's/./& /g'
       - name: Checkout repository
         uses: actions/checkout@v4    
       - name: Set up QEMU
