@@ -1,0 +1,39 @@
+version: "3.8"
+services:
+  backend:
+    image: jainrounak6/mern-sampleapp:backend
+    container_name: mern-backend
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+    ports:
+      - 4000:4000
+    networks:
+      - mern-network
+
+  frontend:
+    image: jainrounak6/mern-sampleapp:frontend
+    container_name: mern-frontend
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    ports:
+      - 8080:8080
+    networks:
+      - mern-network
+    depends_on:
+      - backend
+
+  nginx:
+    image: jainrounak6/mern-sampleapp:nginx
+    container_name: mern-nginx
+    restart: always
+    ports:
+      - 80:80
+    networks:
+      - mern-network
+    depends_on:
+      - backend
+      - frontend
+
+networks:
+  mern-network:
+    driver: bridge

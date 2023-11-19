@@ -1,0 +1,8 @@
+Dockerfile
+.dockerignore
+node_modules
+README.md
+.git
+.env
+npm-debug.log
+yarn-error.log

@@ -1,0 +1,40 @@
+version: "3.8"
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: mern-backend
+    ports:
+      - 4000:4000
+    networks:
+      - mern-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: mern-frontend
+    ports:
+      - 8080:8080
+    networks:
+      - mern-network
+    depends_on:
+      - backend
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: mern-nginx
+    ports:
+      - 80:80
+    networks:
+      - mern-network
+    depends_on:
+      - backend
+      - frontend
+
+networks:
+  mern-network:
+    driver: bridge

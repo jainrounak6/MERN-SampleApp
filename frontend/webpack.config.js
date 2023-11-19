@@ -13,16 +13,22 @@ module.exports = {
             }
         ]
     },
-    plugins: [new HtmlWebpackPlugin({
-        template: './src/index.html'
-    })],
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/index.html'
+        })
+    ],
     devServer: {
-        historyApiFallback: true
+        historyApiFallback: true,
+        disableHostCheck: true,
+        allowedHosts: [
+            'all'
+        ]
     },
     externals: {
         // global app config object
         config: JSON.stringify({
-            apiUrl: 'http://localhost:4000'
+            apiUrl: process.env.API_URL || 'http://localhost:4000'
         })
     }
-}
+};
