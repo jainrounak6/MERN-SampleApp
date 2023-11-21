@@ -7,8 +7,6 @@ services:
       - /opt/elasticbeanstalk/deployment/env.list
     ports:
       - 4000:4000
-    networks:
-      - mern-network
 
   frontend:
     image: jainrounak6/mern-sampleapp:frontend
@@ -17,8 +15,6 @@ services:
       - /opt/elasticbeanstalk/deployment/env.list
     ports:
       - 8080:8080
-    networks:
-      - mern-network
     depends_on:
       - backend
 
@@ -28,8 +24,6 @@ services:
     restart: always
     ports:
       - 80:80
-    networks:
-      - mern-network
     depends_on:
       - backend
       - frontend
