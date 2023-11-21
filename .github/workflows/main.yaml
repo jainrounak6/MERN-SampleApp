@@ -61,6 +61,19 @@ jobs:
       #     eb use dev-env
       #     eb deploy dev-env
 
+      # Check if Elastic Beanstalk environment exists
+      - name: Check if Elastic Beanstalk environment exists
+        run: |
+          eb list
+          echo "::set-env name=EB_ENV_EXISTS::$(eb list | grep -c '^dev-env$')"
+
+      # Create Elastic Beanstalk environment if it doesn't exist
+      - name: Create Elastic Beanstalk environment if it doesn't exist
+        run: |
+          if [ "${{ env.EB_ENV_EXISTS }}" -eq "0" ]; then
+            eb create dev-env --single --envvars "DOCKER_COMPOSE_FILE=docker-compose.yml" --cname dev-env.eu-west-1.elasticbeanstalk.com
+          fi
+
       # This is the step that is deploying the application to Elastic Beanstalk.
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
