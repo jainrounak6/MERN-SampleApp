@@ -1,6 +1,9 @@
 version: "3.8"
 services:
   backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     image: jainrounak6/mern-sampleapp:backend
     container_name: mern-backend
     env_file:
@@ -11,6 +14,9 @@ services:
       - mern-network
 
   frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     image: jainrounak6/mern-sampleapp:frontend
     container_name: mern-frontend
     env_file:
@@ -23,6 +29,9 @@ services:
       - backend
 
   nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
     image: jainrounak6/mern-sampleapp:nginx
     container_name: mern-nginx
     restart: always
@@ -33,3 +42,7 @@ services:
     depends_on:
       - backend
       - frontend
+
+networks:
+  mern-network:
+    driver: bridge

@@ -1,0 +1,53 @@
+AWSConfigurationTemplateVersion: 1.1.0.0
+EnvironmentTier:
+  Name: WebServer
+  Type: Standard
+OptionSettings:
+  AWSEBAutoScalingGroup.aws:ec2:vpc:
+    Subnets: subnet-06a8730994aebbec8,subnet-0b72d9b7e3926005d,subnet-08ca62ee3a6ac167d
+  AWSEBAutoScalingLaunchConfiguration.aws:autoscaling:launchconfiguration:
+    IamInstanceProfile: EC2-ElasticBeanstalk-Role
+  AWSEBAutoScalingLaunchConfiguration.aws:ec2:vpc:
+    AssociatePublicIpAddress: true
+  AWSEBSecurityGroup.aws:ec2:vpc:
+    VPCId: vpc-0ca8df1487904e9d7
+  aws:autoscaling:launchconfiguration:
+    EC2KeyName: eu-west-1
+  aws:ec2:instances:
+    SpotFleetOnDemandAboveBasePercentage: '0'
+  aws:elasticbeanstalk:application:environment:
+    API_URL: http://mern-dev.eu-west-1.elasticbeanstalk.com/api
+    MONGODB_URI: mongodb+srv://mernapp:4T9j8GfkFrLkTUij@cluster0.voi1qcy.mongodb.net/?retryWrites=true&w=majority
+  aws:elasticbeanstalk:command:
+    BatchSize: '100'
+    BatchSizeType: Percentage
+    DeploymentPolicy: AllAtOnce
+    IgnoreHealthCheck: false
+  aws:elasticbeanstalk:environment:
+    EnvironmentType: SingleInstance
+    LoadBalancerType: application
+    ServiceRole: arn:aws:iam::039125905665:role/service-role/aws-elasticbeanstalk-service-role-mernapp
+Platform:
+  PlatformArn: arn:aws:elasticbeanstalk:eu-west-1::platform/Docker running on 64bit
+    Amazon Linux 2023/4.1.1
+branch-defaults:
+  feature/pipeline:
+    environment: dev-env
+    group_suffix: null
+environment-defaults:
+  dev-env:
+    branch: null
+    repository: null
+global:
+  application_name: MERN-SampleApp
+  default_ec2_keyname: eu-west-1
+  default_platform: Docker running on 64bit Amazon Linux 2023
+  default_region: eu-west-1
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: eb-cli
+  repository: null
+  sc: git
+  workspace_type: Application
