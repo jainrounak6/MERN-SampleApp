@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4    
+        uses: actions/checkout@v4
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -19,26 +19,43 @@ jobs:
         uses: docker/login-action@v3
         with:
           ecr: false
-          # username: ${{ secrets.DOCKERHUB_USERNAME }}
-          # password: ${{ secrets.DOCKERHUB_TOKEN }}
-          username: "jainrounak6"
-          password: "dckr_pat_hSmHLJzzYe-NJD9TTIfS5_MUUhA"
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build and push Docker images
         run: |
-          docker-compose build
-          docker-compose push
+          docker-compose -f docker-compose-prod-build.yml build
+          docker-compose -f docker-compose-prod-build.yml push
   deploy:
     runs-on: ubuntu-latest
     needs: build # Ensure the build job is completed before deploying
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Install Python 3.9
+      - name: Install Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      # Install the EB CLI using pip
+      - name: Install EB CLI
+        run: |
+          python -m pip install --upgrade pip
+          pip install awsebcli
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-1
+          aws-region: ${{ env.AWS_REGION }}
+
+      # - name: Init EB CLI
+      #   run: |
+      #     eb init
 
       - name: Deploy to Elastic Beanstalk
         run: |
-          eb deploy Mern-sampleapp-env
+          eb deploy dev-env

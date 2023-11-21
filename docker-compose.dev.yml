@@ -5,6 +5,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: mern-backend
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
     ports:
       - 4000:4000
     networks:
