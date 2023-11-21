@@ -55,6 +55,20 @@ jobs:
       #   run: |
       #     eb init
 
+      # - name: Deploy to Elastic Beanstalk
+      #   run: |
+      #     eb init -p docker MERN-SampleApp -r eu-west-1
+      #     eb use dev-env
+      #     eb deploy dev-env
+
+      # This is the step that is deploying the application to Elastic Beanstalk.
       - name: Deploy to Elastic Beanstalk
-        run: |
-          eb deploy dev-env
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: MERN-SampleApp
+          environment_name: dev-env
+          region: eu-west-1
+          version_label: "version-${{ github.run_number }}"
+          deployment_package: docker-compose.yml
