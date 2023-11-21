@@ -6,8 +6,6 @@ services:
       dockerfile: Dockerfile
     image: jainrounak6/mern-sampleapp:backend
     container_name: mern-backend
-    env_file:
-      - /opt/elasticbeanstalk/deployment/env.list
     ports:
       - 4000:4000
     networks:
@@ -19,8 +17,6 @@ services:
       dockerfile: Dockerfile
     image: jainrounak6/mern-sampleapp:frontend
     container_name: mern-frontend
-    env_file:
-      - /opt/elasticbeanstalk/deployment/env.list
     ports:
       - 8080:8080
     networks:
