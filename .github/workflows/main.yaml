@@ -51,9 +51,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
 
-      - name: Init EB CLI
-        run: |
-          eb init
+      # - name: Init EB CLI
+      #   run: |
+      #     eb init
 
       - name: Deploy to Elastic Beanstalk
         run: |
